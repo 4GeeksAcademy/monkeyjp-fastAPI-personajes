@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database files
+*.db
+
+# Environment variables
+.env
+
+# Pipenv
+Pipfile.lock
+
+# VS Code
+.vscode/
+
+# Mac OS
+.DS_Store
+
+# PyCharm
+.idea/

@@ -7,7 +7,6 @@ class PersonajeBase(BaseModel):
     nombre: str
     frase: str
     imagen: str
-    usuario_id: int
 
 
 class PersonajeCreate(PersonajeBase):
@@ -20,7 +19,7 @@ class PersonajeOut(PersonajeBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # -------- USUARIO --------
 
@@ -35,4 +34,4 @@ class UsuarioOut(UsuarioBase):
     personajes: List[PersonajeOut] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
