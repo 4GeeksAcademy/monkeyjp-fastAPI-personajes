@@ -71,3 +71,14 @@ def obtener_usuario(db: Session, usuario_id: int):
 
 def obtener_usuario_por_nombre(db: Session, nombre: str):
     return db.query(Usuario).filter(Usuario.nombre == nombre).first()
+
+def eliminar_usuario(db: Session, usuario_id: int):
+    usuario = obtener_usuario(db, usuario_id)
+
+    if not usuario:
+        return None
+
+    db.delete(usuario)
+    db.commit()
+
+    return usuario

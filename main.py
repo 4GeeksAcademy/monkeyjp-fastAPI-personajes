@@ -65,7 +65,7 @@ def eliminar(nombre: str, id: int, db: Session = Depends(get_db)):
 
 # -------- USUARIOS --------
 
-@app.post("/usuarios/{nombre}", response_model=schemas.UsuarioOut, tags=["Usuarios"])
+@app.post("/usuarios/nombre/{nombre}", response_model=schemas.UsuarioOut, tags=["Usuarios"])
 def crear_usuario(nombre: str, db: Session = Depends(get_db)):
     usuario_data = schemas.UsuarioCreate(nombre=nombre)
     nuevo_usuario = crud.crear_usuario(db, usuario_data)
@@ -79,9 +79,25 @@ def crear_usuario(nombre: str, db: Session = Depends(get_db)):
 def listar_usuarios(db: Session = Depends(get_db)):
     return crud.obtener_usuarios(db)
 
-@app.get("/usuarios/{nombre}", response_model=schemas.UsuarioOut, tags=["Usuarios"])
+@app.get("/usuarios/nombre/{nombre}", response_model=schemas.UsuarioOut, tags=["Usuarios"])
 def obtener_usuario_por_nombre(nombre: str, db: Session = Depends(get_db)):
     usuario = crud.obtener_usuario_por_nombre(db, nombre)
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario
+
+
+@app.delete("/usuarios/{usuario_id}", tags=["Usuarios"])
+def eliminar_usuario(usuario_id: int, db: Session = Depends(get_db)):
+    usuario = crud.eliminar_usuario(db, usuario_id)
+
+    if usuario is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Usuario no encontrado"
+        )
+
+    return {
+        "mensaje": "Usuario y sus personajes eliminados correctamente",
+        "usuario_id": usuario_id
+    }

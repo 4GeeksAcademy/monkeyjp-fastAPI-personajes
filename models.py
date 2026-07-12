@@ -7,9 +7,13 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    nombre = Column(String, nullable=False)
+    nombre = Column(String, nullable=False, unique=True)
 
-    personajes = relationship("Personaje", back_populates="usuario_rel")
+    personajes = relationship(
+        "Personaje",
+        back_populates="usuario_rel",
+        cascade="all, delete-orphan"
+    )
 
 class Personaje(Base):
     __tablename__ = "personajes"
@@ -18,6 +22,10 @@ class Personaje(Base):
     nombre = Column(String, nullable=False)
     frase = Column(String, nullable=False)
     imagen = Column(String, nullable=False)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    usuario_id = Column(
+        Integer,
+        ForeignKey("usuarios.id"),
+        nullable=False
+    )
 
     usuario_rel = relationship("Usuario", back_populates="personajes")
